@@ -2,6 +2,10 @@ In this guide, you will learn how to use OBS Studio to monitor the output of any
 
 <!--more-->
 
+## Audio recording
+
+If you'd rather follow along with audio, a [recording](https://jonathanr.me/files/Monitoring%20output%20from%20microphones%20and%20routing%20audio%20with%20no%20lag%20using%20OBS%20Studio.mp3) is available that covers the same steps.
+
 ## Important disclaimers
 
 This is only for Windows, and guides for Mac and Linux will most likely not be written, as I have no idea how to achieve this on those platforms.
@@ -10,7 +14,7 @@ This guide assumes you have OBS Studio and some routing solution already install
 
 ## What you will need
 
-You will need the [Audio Monitor plugin](https://obsproject.com/forum/resources/audio-monitor.1186/version/5987/download?file=109924) and the [win-capture-audio plugin](https://github.com/bozbez/win-capture-audio/releases/download/v2.2.3-beta/win-capture-audio-2.2.3-beta-setup.exe), as these plugins do most of the work when it comes to routing the audio.
+You will need the [Audio Monitor plugin](https://obsproject.com/forum/resources/audio-monitor.1186/version/6339/download?file=114225) and the [win-capture-audio plugin](https://github.com/bozbez/win-capture-audio/releases/download/v2.2.3-beta/win-capture-audio-2.2.3-beta-setup.exe), as these plugins do most of the work when it comes to routing the audio.
 
 As of OBS Studio 28 and later,  the windows audio capture is built in, but does not allow for us to click the checkbox to capture all audio except sessions from the selected executables. This is why you need the third party plugin that allows for this.
 
@@ -72,7 +76,7 @@ Step 5: You should still be focused on the monitor filter, and press tab until y
 
 Once done, press  enter or escape to save your changes.
 
-## Configuring the ability to monitor your microphone through your headphones(optional)
+## Configuring the ability to monitor your microphone through your headphones (optional)
 
 Step 1: Press tab until you find the properties for your source name button, press space, use your arrow keys until you find advanced audio properties, and press enter.
 
@@ -107,6 +111,8 @@ Step 4: Press tab until you find the Capture all audio EXCEPT sessions from the 
 When you check this checkbox, it will route all applications except those that are excluded.
 
 Step 5:: Press tab until you find the combo box that says add from currently active sessions, and add the applications you want excluded from the route. Make sure to exclude communication applications and OBS Studio to prevent loopback problems.
+
+If you don't see a certain application in the list, make sure it's running so the plugin can detect it.
 
 Once you are focused on the application you want excluded, press tab until you find the add executable button, and press space. You press the add executable button for each application you want added to the list.
 
@@ -147,6 +153,44 @@ Step 2: Once in the settings window, press tab until you find the list of items,
 Press tab until you find show source name, and hide source name, and you do the global hotkey gesture you want to assign to that action.
 
 Keep pressing tab until you find the okay button, and press space to save your changes. Do not use shift tab or arrow keys, otherwise it will add those as hotkeys. Be careful!
+
+## Monitoring the status of your sources
+
+One of the problems with this routing method was you could never tell when you were  routed or not. You had to either guess, or look at the OBS window to check.
+
+Now, thanks to the help of AI, I put together a [small program](https://jonathanr.me/files/OBS_Monitor_Win.zip) that plays tones when hiding and showing sources.
+
+The program is completely portable, just extract the zip file and run the program in any location you choose.
+
+Note: This program uses the OBS WebSocket server to monitor the status of your sources.
+
+### Configuring the OBS monitor
+
+Step 1: In the OBS Window, press the alt key, right arrow until you find tools, use your arrow keys until you find WebSocket server settings, and press enter.
+
+Step 2: Press tab until you find the enable WebSocket server checkbox. Press space to check this checkbox.
+
+You can optionally add a password and change the port, the program will ask you for your connection settings at first launch.
+
+Step 3: Press tab until you find the okay button, and press space to save your changes.
+
+Note: If you receive any popups from Windows firewall asking you to allow the OBS WebSocket server, allow it.
+
+### Using the OBS Monitor
+
+In the OBS_Monitor_win folder, run monitor.exe and enter your connection details.
+
+If you choose to use default connection settings, the program will assume you want to use localhost port 4455 with no password.
+
+Once done, the program will play a tone to indicate a successful connection to your OBS WebSocket server.
+
+The program also plays tones when it launches or exits, if a connection is lost or refused, or if an error occurs. All errors are written to an errors.log file.
+
+Note: The program will only ask for your connection details at first launch, as all configuration settings are saved to a configuration file.
+
+If you want to change any configuration settings, just edit the config.json file.
+
+Since the program has an invisible interface, you can press Windows Shift F4 to exit.
 
 ## Miscellaneous settings
 
